@@ -16,7 +16,8 @@ main {
     padding: 1em;
     border: 2px solid black;
     border-radius: 18px;
-    /* background-color: black; */
+    background-color: rgb(66, 66, 66);
+    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.5);
 }
 
 #calculator {
@@ -26,11 +27,16 @@ main {
 }
 
 #output {
-    height: 5em;
+    height: 2em;
     border: 1px solid black;
     border-radius: 10px;
     margin-top: 1em;
-    /* background-color: aliceblue; */
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: .5em;
+    background-color: aliceblue;
 }
 
 .buttons {
@@ -45,9 +51,10 @@ main {
 }
 
 button {
-    padding: 3em;
-    width: 7em;
+    padding: 1em;
+    width: 4em;
     border-radius: 16px;
+    font-size: 28px;
 }
 
 button:hover {
