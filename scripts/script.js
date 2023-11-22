@@ -1,20 +1,20 @@
 const buttons = document.querySelector('.buttons');
 const output = document.querySelector('#output');
 
-function add(operator1, operator2) {
-    return operator1 + operator2;
+function add(operand1, operand2) {
+    return operand1 + operand2;
 }
 
-function subtract(operator1, operator2) {
-    return operator1 - operator2;
+function subtract(operand1, operand2) {
+    return operand1 - operand2;
 }
 
-function multiply(operator1, operator2) {
-    return operator1 * operator2;
+function multiply(operand1, operand2) {
+    return operand1 * operand2;
 }
 
-function divide(operator1, operator2) {
-    return operator1 * operator2;
+function divide(operand1, operand2) {
+    return operand1 * operand2;
 }
 
 buttons.addEventListener('click', (e) => {
