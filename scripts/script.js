@@ -2,11 +2,11 @@ const buttons = document.querySelector('.buttons');
 const output = document.querySelector('#output');
 
 function add(operand1, operand2) {
-    return (operand1 + operand2).toFixed(3);
+    return (operand1 + operand2).toFixed(5);
 }
 
 function subtract(operand1, operand2) {
-    return (operand1 - operand2).toFixed(3);
+    return (operand1 - operand2).toFixed(5);
 }
 
 function multiply(operand1, operand2) {
