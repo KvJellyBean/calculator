@@ -36,24 +36,38 @@ buttons.addEventListener('click', (e) => {
     const id = e.target.id;
     const value = e.target.value;
 
-    if (output.innerText.slice(-1).match(/[*/+-]/) && value.match(/[*/+-]/)) {
-        output.innerText = output.innerText.slice(0, -1);
-        output.innerText += value;
+    if (e.target.tagName !== 'BUTTON') {
+        return;
+    }
+
+    const lastCharIsOperator = output.innerText.slice(-1).match(/[*/+-]/);
+    const valueIsOperator = value.match(/[*/+-]/);
+    const outputHasOperator = output.innerText.match(/[*/+-]/);
+
+    if (lastCharIsOperator && valueIsOperator) {
+        output.innerText = output.innerText.slice(0, -1) + value;
     } else {
         if (id === 'acButton') {
             output.innerText = '';
+            operand1 = 0;
+            operand2 = 0;
+            operator = '';
         } else if (id === 'equal') {
-            console.log(operand1);
-            console.log(operator);
-            console.log(operand2);
-            output.innerText = operate(operand1, operator, operand2);;
+            output.innerText = `${operate(operand1, operator, operand2)}`;
         } else {
-            output.innerText += value;
-            let matcher = output.innerText.match(/[*/+-]/);
-            if (matcher != null) {
-                operator = output.innerText.substr(matcher.index, 1);
-                operand1 = output.innerText.slice(0, matcher.index);
-                operand2 = output.innerText.slice(matcher.index + 1);
+            const lastCharIsNumber = output.innerText.slice(-1).match(/[0-9]/);
+            if (lastCharIsNumber && valueIsOperator && outputHasOperator) {
+                operand1 = operate(operand1, operator, operand2);
+                operand2 = 0;
+                operator = value;
+                output.innerText = `${operand1}${operator}`;
+            } else {
+                output.innerText += value;
+                if (outputHasOperator !== null) {
+                    operator = output.innerText.substr(outputHasOperator.index, 1);
+                    operand1 = output.innerText.slice(0, outputHasOperator.index);
+                    operand2 = output.innerText.slice(outputHasOperator.index + 1);
+                }
             }
         }
     }
