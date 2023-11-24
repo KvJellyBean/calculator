@@ -2,22 +2,22 @@ const buttons = document.querySelector('.buttons');
 const output = document.querySelector('#output');
 
 function add(operand1, operand2) {
-    return operand1 + operand2;
+    return (operand1 + operand2).toFixed(3);
 }
 
 function subtract(operand1, operand2) {
-    return operand1 - operand2;
+    return (operand1 - operand2).toFixed(3);
 }
 
 function multiply(operand1, operand2) {
-    return (operand1 * operand2).toFixed(2);
+    return (operand1 * operand2).toFixed(3);
 }
 
 function divide(operand1, operand2) {
     if (operand2 == 0) {
         return 'Error';
     }
-    return (operand1 / operand2).toFixed(2);
+    return (operand1 / operand2).toFixed(3);
 }
 
 function operate(operand1, operator, operand2) {
