@@ -2,22 +2,22 @@ const buttons = document.querySelector('.buttons');
 const output = document.querySelector('#output');
 
 function add(operand1, operand2) {
-    return (operand1 + operand2).toFixed(5);
+    return (operand1 + operand2);
 }
 
 function subtract(operand1, operand2) {
-    return (operand1 - operand2).toFixed(5);
+    return (operand1 - operand2);
 }
 
 function multiply(operand1, operand2) {
-    return (operand1 * operand2).toFixed(3);
+    return (operand1 * operand2);
 }
 
 function divide(operand1, operand2) {
     if (operand2 == 0) {
         return 'Error';
     }
-    return (operand1 / operand2).toFixed(3);
+    return (operand1 / operand2);
 }
 
 function operate(operand1, operator, operand2) {
@@ -29,49 +29,40 @@ function operate(operand1, operator, operand2) {
     }
 }
 
+function isOperator(operator) {
+    return (operator == '+' || operator == '-' || operator == '/' || operator == '*');
+}
+
 // Declare 3 variabel for operation (var1,operator,var2)
 let operand1 = 0;
+let operator = '+';
 let operand2 = 0;
-let operator;
+let finalValue;
 
-// Event Handler for buttons container (targeting the button only with event.target)
-buttons.addEventListener('click', (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-
-    if (e.target.tagName !== 'BUTTON') {
-        return;
+// Function for displaying to calculator's output
+function populateDisplay(obj) {
+    if (isOperator(obj.value)) {
+        output.innerText += obj.value;
+        operator = obj.value;
+        operand1 = output.innerText.slice(0, output.innerText.indexOf(operator));
+    } else if (obj.value == 'clear') {
+        output.innerText = '';
+        operand1 = 0;
+        operator = '';
+        operand2 = 0;
+    } else if (obj.value == '=') {
+        finalValue = operate(operand1, operator, operand2);
+        output.innerText = finalValue;
     }
-
-    const lastCharIsOperator = output.innerText.slice(-1).match(/[*/+-]/);
-    const valueIsOperator = value.match(/[*/+-]/);
-    const outputHasOperator = output.innerText.match(/[*/+-]/);
-
-    if (lastCharIsOperator && valueIsOperator) {
-        output.innerText = output.innerText.slice(0, -1) + value;
-    } else {
-        if (id === 'acButton') {
-            output.innerText = '';
-            operand1 = 0;
-            operand2 = 0;
-            operator = '';
-        } else if (id === 'equal') {
-            output.innerText = `${operate(operand1, operator, operand2)}`;
-        } else {
-            const lastCharIsNumber = output.innerText.slice(-1).match(/[0-9]/);
-            if (lastCharIsNumber && valueIsOperator && outputHasOperator) {
-                operand1 = operate(operand1, operator, operand2);
-                operand2 = 0;
-                operator = value;
-                output.innerText = `${operand1}${operator}`;
-            } else {
-                output.innerText += value;
-                if (outputHasOperator !== null) {
-                    operator = output.innerText.substr(outputHasOperator.index, 1);
-                    operand1 = output.innerText.slice(0, outputHasOperator.index);
-                    operand2 = output.innerText.slice(outputHasOperator.index + 1);
-                }
-            }
+    else {
+        if (obj.value == undefined) {
+            return;
         }
+        output.innerText += obj.value;
+        operand2 = output.innerText.slice(output.innerText.indexOf(operator) + 1);
     }
+}
+
+buttons.addEventListener('click', (e) => {
+    populateDisplay(e.target);
 });
