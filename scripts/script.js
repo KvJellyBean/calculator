@@ -26,6 +26,7 @@ function operate(operand1, operator, operand2) {
         case '-': return subtract(+operand1, +operand2); break;
         case '*': return multiply(+operand1, +operand2); break;
         case '/': return divide(+operand1, +operand2); break;
+        default: return "error"; break;
     }
 }
 
@@ -42,17 +43,50 @@ let finalValue;
 // Function for displaying to calculator's output
 function populateDisplay(obj) {
     if (isOperator(obj.value)) {
+        if (output.innerText.match(/[*/+-]/) && operand2 != 0) {
+            finalValue = operate(operand1, operator, operand2);
+            operand1 = finalValue;
+            operator = obj.value;
+            operand2 = 0;
+            output.innerText = operand1 + operator;
+            return;
+        }
         output.innerText += obj.value;
         operator = obj.value;
         operand1 = output.innerText.slice(0, output.innerText.indexOf(operator));
     } else if (obj.value == 'clear') {
         output.innerText = '';
         operand1 = 0;
-        operator = '';
+        operator = '+';
         operand2 = 0;
     } else if (obj.value == '=') {
+        if (!output.innerText.match(/[*/+-]/)) {
+            output.innerText = output.innerText;
+            return;
+        } else if (output.innerText.match(/[*/+-]/) && operand2 == 0) {
+            output.innerText = output.innerText;
+            return;
+        }
         finalValue = operate(operand1, operator, operand2);
+        operand1 = finalValue;
+        operator = '+';
+        operand2 = 0;
         output.innerText = finalValue;
+        console.log(finalValue);
+    } else if (obj.value == '%') {
+        if (output.innerText.match(/[*/+-]/)) {
+            operand2 /= 100;
+            output.innerText = output.innerText.slice(0, output.innerText.indexOf(operator) + 1) + operand2;
+            return;
+        }
+        output.innerText /= 100;
+    } else if (obj.value == 'sign') {
+        if (output.innerText.match(/[*/+-]/)) {
+            operand2 *= -1;
+            output.innerText = output.innerText.slice(0, output.innerText.indexOf(operator) + 1) + operand2;
+            return;
+        }
+        output.innerText *= -1;
     }
     else {
         if (obj.value == undefined) {
