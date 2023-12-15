@@ -50,6 +50,23 @@ main {
     gap: .5em;
 }
 
+#plus,
+#minus,
+#times,
+#divisor,
+#equal {
+    background-color: orange;
+    color: white;
+}
+
+#acButton,
+#sign,
+#percentage {
+    background-color: rgb(117, 116, 116);
+    color: white;
+}
+
+
 button {
     padding: 1em;
     width: 4em;
