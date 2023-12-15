@@ -42,24 +42,24 @@ let finalValue;
 
 // Function for displaying to calculator's output
 function populateDisplay(obj) {
-    if (isOperator(obj.value)) {
+    if (isOperator(obj)) {
         if (output.innerText.match(/[*/+-]/) && operand2 != 0) {
             finalValue = operate(operand1, operator, operand2);
             operand1 = finalValue;
-            operator = obj.value;
-            operand2 = 0;
+            operator = obj;
+            // operand2 = 0;
             output.innerText = operand1 + operator;
             return;
         }
-        output.innerText += obj.value;
-        operator = obj.value;
+        output.innerText += obj;
+        operator = obj;
         operand1 = output.innerText.slice(0, output.innerText.indexOf(operator));
-    } else if (obj.value == 'clear') {
+    } else if (obj == 'clear' || obj == 'Backspace') {
         output.innerText = '';
         operand1 = 0;
         operator = '+';
         operand2 = 0;
-    } else if (obj.value == '=') {
+    } else if (obj == '=' || obj == 'Enter') {
         if (!output.innerText.match(/[*/+-]/)) {
             output.innerText = output.innerText;
             return;
@@ -73,14 +73,14 @@ function populateDisplay(obj) {
         operand2 = 0;
         output.innerText = finalValue;
         console.log(finalValue);
-    } else if (obj.value == '%') {
+    } else if (obj == '%') {
         if (output.innerText.match(/[*/+-]/)) {
             operand2 /= 100;
             output.innerText = output.innerText.slice(0, output.innerText.indexOf(operator) + 1) + operand2;
             return;
         }
         output.innerText /= 100;
-    } else if (obj.value == 'sign') {
+    } else if (obj == 'sign') {
         if (output.innerText.match(/[*/+-]/)) {
             operand2 *= -1;
             output.innerText = output.innerText.slice(0, output.innerText.indexOf(operator) + 1) + operand2;
@@ -89,14 +89,24 @@ function populateDisplay(obj) {
         output.innerText *= -1;
     }
     else {
-        if (obj.value == undefined) {
+        if (obj == undefined) {
             return;
         }
-        output.innerText += obj.value;
+        output.innerText += obj;
         operand2 = output.innerText.slice(output.innerText.indexOf(operator) + 1);
     }
 }
 
 buttons.addEventListener('click', (e) => {
-    populateDisplay(e.target);
+    populateDisplay(e.target.value);
 });
+
+window.addEventListener('keydown', (e) => {
+    if (isAllowedKey(e.key)) {
+        populateDisplay(e.key);
+    }
+});
+
+function isAllowedKey(key) {
+    return (key.match(/[0-9]/) || key.match(/[*/+=.%-]/) || key == 'Backspace' || key == 'Enter') && !key.match(/^F[1-9]|F1[0-2]$/);
+}
