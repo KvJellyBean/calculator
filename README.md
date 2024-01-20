@@ -26,7 +26,7 @@ This calculator project is part of [The Odin Project](https://www.theodinproject
 ### Installation
    - Clone the repository to your local machine:
      ```
-     git clone https://github.com/your-username/calculator.git
+     git clone https://github.com/KvJellyBean/calculator.git
      ```
 
 ### Usage
